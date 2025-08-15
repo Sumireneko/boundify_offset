@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+
+   <!--  9 grid -->
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <!-- Row 0 -->
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelOffset">
+       <property name="text">
+        <string>Offset:</string>
+       </property>
+
+		<property name="alignment">
+			<set>Qt::AlignRight</set> <!-- right -->
+		</property>
+
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QDoubleSpinBox" name="spinBoxOfs">
+       <property name="minimum">
+        <number>-100</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2">
+	<widget class="QPushButton" name="okButton">
+		<property name="text">
+			<string>OK</string>
+		</property>
+		<property name="styleSheet">
+			<string>
+				QPushButton {
+					border: 2px solid #CCCCCC; 
+					font-weight: bold;
+					border-radius: 4px;
+					padding:3px;
+				}
+			</string>
+		</property>
+	</widget>
+
+     </item>
+     <!-- Row 1 -->
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelCornerType">
+       <property name="text">
+        <string>Corner Type:</string>
+       </property>
+
+		<property name="alignment">
+			<set>Qt::AlignRight</set> <!-- right -->
+		</property>
+
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="comboBoxCornerType"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QPushButton"  name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+
+		<property name="styleSheet">
+			<string>
+				QPushButton {
+					font-weight: bold;
+				}
+			</string>
+		</property>
+
+      </widget>
+     </item>
+     <!-- Row 2 -->
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelMiterRate">
+       <property name="text">
+        <string>Miter Rate:</string>
+       </property>
+
+		<property name="alignment">
+			<set>Qt::AlignRight</set> <!-- right -->
+		</property>
+
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QDoubleSpinBox" name="spinBoxMiterRate">
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>4</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QCheckBox" name="checkBoxPreview">
+       <property name="text">
+        <string>Preview</string>
+       </property>
+      </widget>
+     </item>
+
+   <!-- 9 grid
+
+<item row="3" column="0" colspan="3">
+    <widget class="QFrame" name="horizontalLine">
+        <property name="frameShape">
+            <enum>QFrame::HLine</enum>
+        </property>
+        <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed"/>
+        </property>
+    </widget>
+</item>
+
+ -->
+
+     <!-- Row 4 -->
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelCapType">
+       <property name="text">
+        <string>&lt;--CAP A</string>
+       </property>
+		<property name="alignment">
+			<set>Qt::AlignRight</set> <!-- right -->
+		</property>
+
+     </widget>
+
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="Taper">
+       <property name="text">
+        <string>-- Path Effects --</string>
+       </property>
+
+		<property name="alignment">
+			<set>Qt::AlignCenter</set> <!-- center -->
+		</property>
+
+
+      </widget>
+     </item>
+     <item row="4" column="2">
+      <widget class="QLabel" name="labelCapType2">
+       <property name="text">
+        <string>CAP B--&gt;</string>
+       </property>
+      </widget>
+     </item>
+ 
+
+
+     <!-- Row 5 -->
+     <item row="5" column="0">
+      <widget class="QComboBox" name="comboBoxCapAType"/>
+
+     </item>
+     <item row="5" column="1">
+      <widget class="QComboBox" name="comboBoxTaperType"/>
+     </item>
+     <item row="5" column="2">
+      <widget class="QComboBox" name="comboBoxCapBType"/>
+     </item>
+
+
+
+
+     <!-- Row 6 -->
+     <item row="6" column="0">
+      <widget class="QLabel" name="labelCapType2">
+       <property name="text">
+        <string>Factor:</string>
+       </property>
+
+		<property name="alignment">
+			<set>Qt::AlignRight</set> <!-- right -->
+		</property>
+
+      </widget>
+     </item>
+     <item row="6" column="1">
+
+
+    <widget class="QSlider" name="sliderFactor">
+        <property name="minimum">
+            <number>1</number>
+        </property>
+        <property name="maximum">
+            <number>100</number>
+        </property>
+        <property name="value">
+            <number>50</number>
+        </property>
+        <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+        </property>
+    </widget>
+
+     </item>
+     <item row="6" column="2">
+
+      <widget class="QDoubleSpinBox" name="spinBoxFactor">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>50</number>
+       </property>
+      </widget> 
+
+     </item>
+
+
+     <item row="7" column="0">
+      <widget class="QCheckBox" name="checkBoxFillview">
+       <property name="text">
+        <string>Fill view</string>
+       </property>
+      </widget>
+     </item>
+
+
+
+
+	<item row="7" column="1">
+      <widget class="QCheckBox" name="checkBoxOriginal">
+       <property name="text">
+        <string>Use original path</string>
+       </property>
+      </widget>
+     </item>
+
+
+
+	<item row="7" column="2">
+      <widget class="QCheckBox" name="checkBoxStroke">
+       <property name="text">
+        <string>Stroke</string>
+       </property>
+      </widget>
+     </item>
+
+
+     <item row="8" column="0">
+      <widget class="QCheckBox" name="checkBoxSinglepath">
+       <property name="text">
+        <string>Single path</string>
+       </property>
+      </widget>
+     </item>
+
+
+		<item row="8" column="1">
+		<layout class="QHBoxLayout" name="HorizontalLayout">
+			<item>
+			<widget class="QPushButton" name="colorButton">
+				<property name="text">
+				<string> </string>
+				</property>
+			</widget>
+			</item>
+			<item>
+			<widget class="QLabel" name="labelst2">
+				<property name="text">
+				<string>Preview Color</string>
+				</property>
+			</widget>
+			</item>
+		</layout>
+		</item>
+
+
+
+	<item row="8" column="2">
+      <widget class="QCheckBox" name="checkBoxReverse">
+       <property name="text">
+        <string>Reverse</string>
+       </property>
+      </widget>
+     </item>
+
+
+
+
+  </layout>
+  </item>
+
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ActionCollection version="2" name="Scripts">
+ <Actions category="Scripts">
+  <text>Shape</text>
+ <Action name="Boundify offset">
+  <activationConditions>0</activationConditions>
+  <activationFlags>10000</activationFlags>
+  <iconText></iconText>
+  <isCheckable>false</isCheckable>
+  <shortcut>Shift+B</shortcut>
+  <statusTip></statusTip>
+  <text>Boundify offset</text>
+  <toolTip>outline offset and line cap</toolTip>
+  <whatsThis></whatsThis>
+  <category>Scripts</category>
+  <categoryText>Shape</categoryText>
+ </Action>
+ </Actions>
+</ActionCollection>
