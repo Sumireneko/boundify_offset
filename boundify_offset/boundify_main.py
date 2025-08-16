@@ -525,7 +525,7 @@ def process_main(params):
                     print(f" Group for put array is found: {top_shape.name()}")
                     groups_abst = top_shape.absoluteTransformation()
                     groups_abst_svg = qtransform_to_svg_transform(groups_abst)
-                    gid="preview_s_grp"+str(uuid.uuid4())[:8]
+                    gid="preview_shapes_g"+str(uuid.uuid4())[:8]
                     group_tag = f'  transform="{groups_abst_svg}"'# reserved
                     group_tag = ""
                     bounds = get_groupshape_bounds(top_shape)
@@ -565,7 +565,7 @@ def process_main(params):
                         print(f"Group found: {shape.name()}")
                         groups_abst = shape.absoluteTransformation()
                         groups_abst_svg = qtransform_to_svg_transform(groups_abst)
-                        gid="preview_s_grp"+str(uuid.uuid4())[:8]
+                        gid="preview_shapes_g"+str(uuid.uuid4())[:8]
                         group_tag = f'  transform="{groups_abst_svg}"'# reserved
                         group_tag = ""
                         g_shapes=[]
