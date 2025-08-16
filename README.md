@@ -90,3 +90,11 @@ This plugin can:
 
 - Krita crashes on rare occasions when dragging the slider rapidly with very complex path shapes  
 - Some paths deviate from the intended route  
+
+## Manual
+
+<img width="1024" height="3182" alt="manual1" src="https://github.com/user-attachments/assets/fcc05f50-9b3f-4d30-8f76-bb16a502f642" />
+
+<img width="1024" height="2048" alt="manual2" src="https://github.com/user-attachments/assets/8dafd3ae-7761-42e8-b161-e81dc2aadb79" />
+
+<img width="1025" height="1815" alt="manual3" src="https://github.com/user-attachments/assets/4d138300-50fe-4ced-a01b-f3a57f42fa93" />
