@@ -269,8 +269,8 @@ Development Notes: by L.Sumireneko.M
 ## 2025 8/15
  * Support corner rounds rx,ry of the rectangle
  * Fixed the issue where the outline of circle and ellipse were not displayed.
-
-
+## 2025 8/21
+ * Fix the error that in Krita 5.2.0 on Windows 10 Pro,RuntimeError: sys.stderr is None<br>Thanks to Michelist for the feedback about the error.
 
 ## Known issues:
  * There is a possibility that Krita crashes with Segfault 11 If move the slider too intensely,(in stamp_top_groups mode,etc)
