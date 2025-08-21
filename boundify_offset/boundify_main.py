@@ -1,5 +1,5 @@
 # ======================================
-# Krita Boundify Offset plug-in v0.8.15
+# Krita Boundify Offset plug-in v0.8.21
 # ======================================
 # Copyright (C) 2025 L.Sumireneko.M
 # This program is free software: you can redistribute it and/or modify it under the 
@@ -26,8 +26,12 @@ import uuid
 from typing import Dict, List, Union, Tuple
 
 import faulthandler
-faulthandler.enable()  # stacktrace
-faulthandler.dump_traceback_later(timeout=5)
+import sys
+
+# For MacOS console debug
+if sys.stderr is not None:
+    faulthandler.enable() # stacktrace
+    faulthandler.dump_traceback_later(timeout=5)
 
 info = []
 total_pts = 1
