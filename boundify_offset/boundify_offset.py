@@ -13,15 +13,34 @@
 # You should have received a copy of the GNU General Public License along with this program.
 # If not, see <https://www.gnu.org/licenses/>. 
 
-
-from krita import *
-from PyQt5 import uic
-from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QSlider, QSpinBox, QPushButton, QColorDialog
-from PyQt5.QtCore import QEvent
-from PyQt5.QtGui import QPalette
-from PyQt5.QtGui import QColor
 import os
 import sys
+
+import krita
+try:
+    if int(krita.qVersion().split('.')[0]) == 5:
+        raise
+    from PyQt6 import uic
+    from PyQt6.QtCore import QEvent
+    from PyQt6.QtWidgets import (
+        QApplication, QDialog, QVBoxLayout, QSlider, QSpinBox, QPushButton, QColorDialog
+    )
+    from PyQt6.QtGui import QPalette
+    from PyQt6.QtGui import QColor
+except:
+    from PyQt5 import uic
+    from PyQt5.QtCore import QEvent
+    from PyQt5.QtWidgets import (
+        QApplication, QDialog, QVBoxLayout, QSlider, QSpinBox, QPushButton, QColorDialog
+    )
+    from PyQt5.QtGui import QPalette
+    from PyQt5.QtGui import QColor
+
+from krita import *
+
+
+
+
 from . import boundify_main
 
 

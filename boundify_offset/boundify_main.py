@@ -1,5 +1,5 @@
 # ======================================
-# Krita Boundify Offset plug-in v0.8.21
+# Krita Boundify Offset plug-in v0.10.19
 # ======================================
 # Copyright (C) 2025 L.Sumireneko.M
 # This program is free software: you can redistribute it and/or modify it under the 
