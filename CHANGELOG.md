@@ -272,6 +272,12 @@ Development Notes: by L.Sumireneko.M
 ## 2025 8/21
  * Fix the error that in Krita 5.2.0 on Windows 10 Pro,RuntimeError: sys.stderr is None<br>Thanks to Michelist for the feedback about the error.
 
+## 2025 10/19
+* Tested by Krita v5.2.14(PyQt5 with Python 3.13)
+ * Preliminary PyQt6 compatibility added Updated import logic to support PyQt6 for future Krita 6.x compatibility.
+ * Note: PyQt6 functionality has not been tested yet. This change is preparatory and not guaranteed to be stable.
+
+
 ## Known issues:
  * There is a possibility that Krita crashes with Segfault 11 If move the slider too intensely,(in stamp_top_groups mode,etc)
 

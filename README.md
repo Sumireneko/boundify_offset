@@ -1,4 +1,4 @@
-## Boundify Offset Plug-in v0.8.21
+## Boundify Offset Plug-in v0.10.19
 
 This plugin can:
 
