@@ -278,6 +278,17 @@ Development Notes: by L.Sumireneko.M
  * Note: PyQt6 functionality has not been tested yet. This change is preparatory and not guaranteed to be stable.
 
 
+## 2026 2/17
+* PyQt5 and 6 compatibility support
+ * Added a PyQt 5 and 6 compatibility layer (qt_compat.py).
+ * This covers various specification changes.
+ * exec_() → exec(), many enum types, event, UI file loader.
+
+ * But it may freeze when used on older PCs or operating systems, such as a Mac mini (2014) running Krita 5.3.0 (Python 3.13.5).
+This is because the plugin uses a large number of elements and provides real‑time previews.
+ * In such cases, I recommend using Krita 5.2.x (Python 3.10.7) together with an older version of the plugin without the compatibility layer (v0.10.19).
+
+
 ## Known issues:
  * There is a possibility that Krita crashes with Segfault 11 If move the slider too intensely,(in stamp_top_groups mode,etc)
 
