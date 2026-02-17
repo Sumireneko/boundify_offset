@@ -1,7 +1,7 @@
 # ======================================
 # Krita Boundify Offset plug-in (GUI)
 # ======================================
-# Copyright (C) 2025 L.Sumireneko.M
+# Copyright (C) 2026 L.Sumireneko.M
 # This program is free software: you can redistribute it and/or modify it under the 
 # terms of the GNU General Public License as published by the Free Software Foundation,
 # either version 3 of the License, or (at your option) any later version.
@@ -15,34 +15,23 @@
 
 import os
 import sys
-
-import krita
-try:
-    if int(krita.qVersion().split('.')[0]) == 5:
-        raise
-    from PyQt6 import uic
-    from PyQt6.QtCore import QEvent
-    from PyQt6.QtWidgets import (
-        QApplication, QDialog, QVBoxLayout, QSlider, QSpinBox, QPushButton, QColorDialog
-    )
-    from PyQt6.QtGui import QPalette
-    from PyQt6.QtGui import QColor
-except:
-    from PyQt5 import uic
-    from PyQt5.QtCore import QEvent
-    from PyQt5.QtWidgets import (
-        QApplication, QDialog, QVBoxLayout, QSlider, QSpinBox, QPushButton, QColorDialog
-    )
-    from PyQt5.QtGui import QPalette
-    from PyQt5.QtGui import QColor
-
 from krita import *
 
+# Import everything from your compatibility layer
+# This handles qt_major, QAction, QC (Enums), and SafeQtWidgets
+from .qt_compat import SafeQtWidgets as QtWidgets, QtCore, QtGui, QC, qt_event, qt_exec, qt_load_ui
 
+# If you need specific classes frequently, you can alias them for convenience
+from .qt_compat import (
+    QEvent, QColor, QPalette, QSlider,
+    QDialog, QVBoxLayout, QSlider, QSpinBox, 
+    QPushButton, QColorDialog, QMessageBox
+)
 
+# NOTE: Since SafeQtWidgets is now available, 
+# you can use QtWidgets.QSlider etc. or the direct imports above.
 
-from . import boundify_main
-
+from .import boundify_main
 
 params = {
     "mode": "outline",
@@ -81,22 +70,39 @@ ac_color = "#CCCCCC"
 is_dark = False
 checkbox_map=cb_temp_texts=cb_default_texts=""
 class boundify_offsetDialog(QDialog):
-    
+
     def __init__(self):
         super().__init__()
+        # Do Not touch Qt at here
+        self.initialized = False
+
+    def initialize_ui(self):
         global params,ac_color,is_dark,checkbox_map,cb_temp_texts,cb_default_texts
         params['mode'] = "offset"
         params['fo_mode'] = True
 
         # 1st time
-        is_dark = is_ui_color_dark(self)
+        is_dark = self.is_ui_color_dark()
         ac_color = "#CCCCCC" if is_dark== True else "#111111"
 
         self.setWindowTitle("Boundify offset")
-        self.setWindowFlag(Qt.WindowStaysOnTopHint)
-        self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.centralWidget = uic.loadUi( os.path.join(os.path.dirname(os.path.realpath(__file__)),"boundify_offset.ui"))
+
+        # Using QC.Window and QC.Policy
+        self.setWindowFlag(QC.Window.WindowStaysOnTopHint)
+        self.setSizePolicy(QC.Policy.Fixed, QC.Policy.Fixed)
+
+
+        # self.centralWidget = uic.loadUi( os.path.join(os.path.dirname(os.path.realpath(__file__)),"boundify_offset.ui"))
+
+        ui_path = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)),
+            "boundify_offset.ui"
+        )
         
+        self.centralWidget = qt_load_ui(ui_path)
+
+
+
         # Temporary state（This dict can store preview-ID and various data for input field value）
         self.preview_state = {}
 
@@ -235,7 +241,8 @@ class boundify_offsetDialog(QDialog):
             self.prev_slider_value = value
         
         # For Spinbox setting
-        self.spinBoxFactor.setButtonSymbols(QAbstractSpinBox.NoButtons)
+        self.spinBoxFactor.setButtonSymbols(QC.SpinButton.NoButtons)
+
         self.spinBoxFactor.setValue(int(params["factor"]))
         # Update when editing finished
         self.spinBoxFactor.editingFinished.connect(
@@ -259,7 +266,7 @@ class boundify_offsetDialog(QDialog):
         self.comboBoxTaperMode.currentTextChanged.connect(lambda text: self.on_value_changed("taper_mode", text))
         self.comboBoxCapBType.currentTextChanged.connect(lambda text: self.on_value_changed("cap_b", text))
 
-
+        # Go directly to the UI to ask if it is currently checked.
         self.checkBoxPreview.setChecked(params["preview"])
         self.checkBoxPreview.stateChanged.connect(lambda _: self.on_value_changed("preview", self.checkBoxPreview.isChecked()))
 
@@ -279,9 +286,10 @@ class boundify_offsetDialog(QDialog):
         self.checkBoxSinglepath.stateChanged.connect(lambda _: self.on_value_changed("single_path", self.checkBoxSinglepath.isChecked()))
 
 
+        self.cancelButton.clicked.connect(lambda _: self.cancel_dialog())
+        self.okButton.clicked.connect(lambda _: self.ok_dialog())
 
-        self.cancelButton.clicked.connect(self.cancel_dialog)
-        self.okButton.clicked.connect(self.ok_dialog)
+
 
         # Paramater initialize
         self.preview_state = params.copy() 
@@ -372,8 +380,9 @@ class boundify_offsetDialog(QDialog):
         reply.setText("Really close this dialog?")
 
         # Add custom buttons
-        btn_ok = reply.addButton("Close", QMessageBox.AcceptRole)  # "Yes"
-        btn_cancel = reply.addButton("Stay", QMessageBox.RejectRole)  # "No"
+        btn_ok = reply.addButton("Close", QC.BtnRole.AcceptRole) # "Yes"
+        btn_cancel = reply.addButton("Stay", QC.BtnRole.RejectRole) # "No"
+
 
         # Get OK button,and change the font style
         for button in reply.findChildren(QPushButton):  # use "reply"
@@ -381,7 +390,7 @@ class boundify_offsetDialog(QDialog):
                 button.setStyleSheet(f"padding:3px;border: 3px solid {ac_color}; font-weight: bold; font-size: 14px;border-radius: 4px;")
         btn_ok.setMinimumWidth(80)
 
-        reply.exec_()
+        qt_exec(reply);# Qt5/6
 
         # Detect user's choice
         if reply.clickedButton() == btn_ok:
@@ -405,9 +414,11 @@ class boundify_offsetDialog(QDialog):
             self.initialized = True  # Execute at once
 
 
+
+
     def changeEvent(self, event):
         global params,ac_color,is_dark
-        if event.type() != QEvent.ActivationChange:
+        if event.type() != qt_event("ActivationChange"): # Qt6 change
             # Basic process does expect ActivationChange event 
             super().changeEvent(event)
             return
@@ -415,7 +426,7 @@ class boundify_offsetDialog(QDialog):
         # Update when this dialog becomes active
         if self.isActiveWindow():
 
-            is_dark = is_ui_color_dark(self)
+            is_dark = self.is_ui_color_dark()
             ac_color = "#CCCCCC" if is_dark== True else "#111111"
 
             if self.preview_state['preview']==True:
@@ -452,33 +463,35 @@ class boundify_offsetDialog(QDialog):
         self.colorButton.setStyleSheet(style)
         self.on_value_changed('previewcolor' ,hex_color)#
 
-
-
-
-def is_ui_color_dark(self):
-    palette = QApplication.palette()
-    bg_color = palette.color(QPalette.Window)
-
-    brightness = (bg_color.red() * 299 + bg_color.green() * 587 + bg_color.blue() * 114) / 1000
     
-    if brightness < 128:
-        print("Dark theme detected");return True
-    else:
-        print("Light theme detected");return False
+    def is_ui_color_dark(self):
+        palette = QApplication.palette()
+        bg_color = palette.color(QC.Role.Window)
 
-
-# Run with outline mode
-def run_outline_command(self):
-    params['mode'] = "outline"
-    boundify_main.process_selected_shapes(params)
-    boundify_main.determine(params['preview_id_prefix'])
+        brightness = (bg_color.red() * 299 + bg_color.green() * 587 + bg_color.blue() * 114) / 1000
+        
+        if brightness < 128:
+            print("Dark theme detected");return True
+        else:
+            print("Light theme detected");return False
+    
+    
 
 class boundify_offset(Extension):
+
+    # Run with outline mode
+    def run_outline_command(self):
+        params['mode'] = "outline"
+        boundify_main.process_selected_shapes(params)
+        boundify_main.determine(params['preview_id_prefix'])
+
 
     def __init__(self, parent):
         # This is initialising the parent, always important when subclassing.
         super().__init__(parent)
+
         self.dialog = boundify_offsetDialog()
+        self.dialog.initialize_ui()
         boundify_main.parent_dialog = self.dialog
 
     def setup(self):
@@ -486,15 +499,12 @@ class boundify_offset(Extension):
         pass
 
     def createActions(self, window):
+
+
         action = window.createAction("Apply offset to path", "Boundify offset ...", "tools/scripts")
         action.triggered.connect(self.dialog.show)
 
         action_two = window.createAction("Apply autline to path", "Apply Outline (Shape)", "tools/scripts")
-        action_two.triggered.connect(lambda: run_outline_command(self))
+        action_two.triggered.connect(self.run_outline_command)
 
-
-# And add the extension to Krita's list of extensions:
-Krita.instance().addExtension(boundify_offset(Krita.instance())) 
-
-
-
+Krita.instance().addExtension(boundify_offset(Krita.instance()))

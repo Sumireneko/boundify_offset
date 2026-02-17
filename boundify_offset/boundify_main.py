@@ -24,14 +24,8 @@ import random
 from datetime import datetime
 import uuid
 from typing import Dict, List, Union, Tuple
-
-import faulthandler
 import sys
 
-# For MacOS console debug
-if sys.stderr is not None:
-    faulthandler.enable() # stacktrace
-    faulthandler.dump_traceback_later(timeout=5)
 
 info = []
 total_pts = 1
@@ -164,7 +158,13 @@ class DebugPlot:
         })
         circle_str = ET.tostring(circle, encoding="utf-8").decode("utf-8")
 
-        font_families = ["Noto Sans", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"]
+        # Avoid the issue of Freeze on Mac
+        if sys.platform == "darwin":
+            self.svg_elms.append(circle_str)
+            return
+
+        # font_families = ["Noto Sans", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"]
+        font_families = ["sans-serif"]
         font_family_str = ", ".join(font_families)  # Convert to a string split by camma
 
         text = ET.Element("text", {
@@ -608,7 +608,9 @@ def process_main(params):
         plot_shapes = dbg.get_plot_elems()
         for s in  plot_shapes:
             #debug_message(s)
+            #print("SVG TEST:", f'<svg {newtag}>{s}</svg>')
             node.addShapesFromSvg(f'<svg {newtag}>{s}</svg>')
+
 
     #debug_message(f"param:"+str(params))
     if ofs_shapes is not None: # For dot_to_dot mode
@@ -3002,13 +3004,13 @@ def create_offset_path_elm(data, fill_color='none', stroke_color=None, stroke_wi
 #-------------------
 #  for debug
 #-------------------
-def debug_qtransform(transform: QTransform):
+def debug_qtransform(transform):
     """Debug function to display each matrix element of QTransform"""
     print(f"m11: {transform.m11()}, m12: {transform.m12()}, m13: {transform.m13()}")
     print(f"m21: {transform.m21()}, m22: {transform.m22()}, m23: {transform.m23()}")
     print(f"m31: {transform.m31()}, m32: {transform.m32()}, m33: {transform.m33()}")
 
-def apply_transform_to_points(transform: QTransform, points: list):
+def apply_transform_to_points(transform, points: list):
     """ Apply QTransform to the coordinate array
     transform = QTransform(1, 0, 0, 0, 1, 0, 100, 200, 1)
     points = [{"x": 0, "y": 0}, {"x": 50, "y": 50}]
@@ -3020,7 +3022,7 @@ def apply_transform_to_points(transform: QTransform, points: list):
     return [{"x": p.x(), "y": p.y()} for p in transformed_points]
 
 
-def qtransform_to_svg_transform(transform: QTransform):
+def qtransform_to_svg_transform(transform):
     """Convert QTransform to SVG transform attribute format
     transform = QTransform(1, 0, 0, 1, 100, 200)
     svg_transform = qtransform_to_svg_transform(transform)
@@ -3474,6 +3476,11 @@ def apply_offset(original_element,params):
 
     is_closed = False
     path_data = None
+
+    # If an invalid tag is received
+    if tag_name in ["text", "tspan", "image"]:
+            print(f"DEBUG: Skipping unsupported tag: {tag_name}")
+            return None
 
     # Branching logic based on tag type 
     if tag_name in ["circle", "ellipse", "rect"]:
@@ -4272,11 +4279,15 @@ def save_svg(svg_element, file_name="result.svg"):
 
 
 def debug_message(msg):
+    print(f"[DEBUG] {msg}")
+
+    """
     if parent_dialog is not None:
         QMessageBox.information(parent_dialog, "DEBUG", msg)  # Set as parent window
     else:
         print("Warning:Parent window is not selected")
         raise ValueError(msg)
+    """
 
 # ------------------------
 # dot_to_dot (main) 
