@@ -1,4 +1,12 @@
-## Boundify Offset Plug-in v0.10.19
+## Boundify Offset Plug-in v0.26.02
+In this version 0.6 support both of PyQt5 and 6 compatibility. 
+(It assumes usage on Krita v5.3.0 and/or v6.0.0) 
+
+**Note**: 
+
+But it may freeze when used on older PCs or operating systems, such as a Mac mini (2014) running Krita 5.3.0 (Python 3.13.5).
+This is because the plugin uses a large number of elements and provides real‑time previews.
+In such cases, I recommend using Krita 5.2.x (Python 3.10.7) together with an older version of the plugin without the compatibility layer (v0.10.26).
 
 This plugin can:
 
